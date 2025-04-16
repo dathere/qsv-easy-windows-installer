@@ -41,9 +41,11 @@ fn run_path_update(app_handle: tauri::AppHandle) {
     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
     let (reg_key, _) = hkcu.create_subkey("Environment").unwrap();
     let path_var: String = reg_key.get_value("Path").unwrap();
-    // Add bin dir to PATH
-    let updated_path_var = format!("{bin_dir_str};{path_var}");
-    reg_key.set_value("Path", &updated_path_var).unwrap();
+    // If bin dir is not in PATH, add bin dir to PATH
+    if !path_var.contains(bin_dir_str) {
+        let updated_path_var = format!("{bin_dir_str};{path_var}");
+        reg_key.set_value("Path", &updated_path_var).unwrap();
+    }
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
