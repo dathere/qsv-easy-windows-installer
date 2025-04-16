@@ -1,6 +1,6 @@
 [package]
 name = "qsv-easy-installer"
-version = "0.1.0"
+version = "1.0.0"
 description = "An easy installer for Windows devices to download the latest release of qsv and access it from PATH."
 authors = ["datHere"]
 edition = "2021"
