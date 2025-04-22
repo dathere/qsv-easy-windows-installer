@@ -22,9 +22,14 @@ function App() {
         disabled={loading}
         onClick={() => {
           setLoading(true);
-          invoke("run_path_update").finally(() => {
-            setLoading(false);
-          });
+          invoke("run_path_update")
+            .then((message) => {
+              setLoading(false);
+              alert("Successfully installed qsv. Try opening a new terminal and run a qsv command! Version info: " + message);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
         }}
         className="mx-auto w-full flex justify-center bg-blue-400"
       >
@@ -36,7 +41,7 @@ function App() {
       </button>
       {loading && (
         <p className="mt-4 text-center">
-          Downloading and installing to PATH. This may take a few seconds...
+          Downloading and installing qsv to PATH. This may take a few seconds...
         </p>
       )}
     </main>
