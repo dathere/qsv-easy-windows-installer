@@ -23,10 +23,6 @@ function App() {
         onClick={() => {
           setLoading(true);
           invoke("run_path_update")
-            .then((message) => {
-              setLoading(false);
-              alert("Successfully installed qsv. Try opening a new terminal and run a qsv command! Version info: " + message);
-            })
             .finally(() => {
               setLoading(false);
             });

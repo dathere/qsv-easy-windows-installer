@@ -5,7 +5,7 @@ use tempfile::tempfile;
 use winreg::{enums::HKEY_CURRENT_USER, RegKey};
 
 #[tauri::command]
-async fn run_path_update(app_handle: tauri::AppHandle) -> String {
+async fn run_path_update(app_handle: tauri::AppHandle) {
     // Get app local data dir path
     let app_local_data_dir = app_handle.path().app_local_data_dir().unwrap();
     // Download qsv to bin dir if it doesn't exist and overwrite any existing qsv
@@ -40,6 +40,7 @@ async fn run_path_update(app_handle: tauri::AppHandle) -> String {
     // Write qsvp.exe to bin/qsv.exe
     let mut qsv_file = std::fs::File::create(bin_dir.join("qsv.exe")).unwrap();
     std::io::copy(&mut qsvp, &mut qsv_file).unwrap();
+    drop(qsv_file);
     // Add the bin dir to PATH
     let bin_dir_str = bin_dir.to_str().unwrap();
     // Get the current PATH
@@ -51,8 +52,6 @@ async fn run_path_update(app_handle: tauri::AppHandle) -> String {
         let updated_path_var = format!("{bin_dir_str};{path_var}");
         reg_key.set_value("Path", &updated_path_var).unwrap();
     }
-    drop(qsv_file);
-    String::from_utf8(std::process::Command::new(bin_dir.join("qsv.exe")).arg("--version").output().unwrap().stdout).unwrap()
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
