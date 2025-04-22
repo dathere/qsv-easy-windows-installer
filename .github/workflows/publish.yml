@@ -2,10 +2,7 @@ name: "Publish to Releases"
 
 on:
   workflow_dispatch:
-    inputs:
-        version:
-            description: "Specify the version. Ensure that the version is in the format v0.0.0."
-            required: true
+
 jobs:
   publish-tauri:
     permissions:
