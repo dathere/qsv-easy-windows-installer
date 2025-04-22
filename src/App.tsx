@@ -25,6 +25,7 @@ function App() {
           invoke("run_path_update")
             .finally(() => {
               setLoading(false);
+              alert("Successfully installed qsv. Try opening a new terminal and run a qsv command!");
             });
         }}
         className="mx-auto w-full flex justify-center bg-blue-400"
